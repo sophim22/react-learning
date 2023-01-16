@@ -8,33 +8,38 @@ export default function Home() {
   const [employee, setEmployee] = useState(
     dummyEmployeeList as IEmployee[]
   );
-  const [isEdit, setIsEdit] = useState(false);
   const [currentPage, setCurrentPage] = useState('list');
   const [item, setItem] = useState<IEmployee>();
 
-  const onDelete = (dataDelete: IEmployee): void => {
-    const emIndex = employee.indexOf(dataDelete);
-    setEmployee(employee.filter((data) => data.id !== employee[emIndex].id))
+  const onDeleteEmployee = (id: string): void => {
+    setEmployee(employee.filter((data) => data.id !== id))
   }
-  const onHandleAdd = (newEmployee: IEmployee): void => {
-    if (isEdit) {
-      const filterData = employee.filter((data)=> data.id === newEmployee.id)[0];
-      const index = employee.indexOf(filterData);
-      const em = employee;
-      em[index] = newEmployee;
-      setEmployee(em)
-    } else {
-      setEmployee([...employee, newEmployee])
+  const onHandleSubmit = (newEmployee: IEmployee): void => {
+    if (newEmployee.id){
+      employee.map((data, index)=> {
+        if (data.id === newEmployee.id){
+          employee[index] = newEmployee;
+          setItem(undefined);
+        }else {
+          return employee;
+        }
+      })
+      
+    }else {
+      const newDAta = {id: new Date().toJSON().toString(), firstName: newEmployee.firstName, lastName: newEmployee.lastName, email: newEmployee.email, phone: newEmployee.phone}
+      setEmployee([...employee, newDAta])
     }
+    setCurrentPage('list')
   }
-  const handleCloseForm = (): void => {
+  const handleClose = (): void => {
     setCurrentPage('list');
-    setIsEdit(false);
   }
-  const onClickEditEmployee = (dataEdit: IEmployee): void => {
-    setItem(dataEdit);
+  const onClickEditEmployee = (id: string): void => {
+    setItem(employee.find((data)=>data.id === id));
     setCurrentPage('new');
-    setIsEdit(true);
+  }
+  const onAddNewEmployee=():void=>{
+    setCurrentPage('new');
   }
   return (
     <div>
@@ -42,18 +47,18 @@ export default function Home() {
         currentPage === 'list' && (
           <EmployeeList
             list={employee}
-            onDelete={onDelete}
-            setCurrentPage={setCurrentPage}
+            onDelete={onDeleteEmployee}
+            onAddNewEmployee={onAddNewEmployee}
             onClickEdit={onClickEditEmployee} />
         )
       }
       {
         currentPage === 'new' && (
           <NewEmployee
-            onHandleAdd={onHandleAdd}
+            onHandleSubmit={onHandleSubmit}
             setCurrentPage={setCurrentPage}
             data={item}
-            handleCloseForm={handleCloseForm}
+            handleClose={handleClose}
           />
         )
       }

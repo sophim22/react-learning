@@ -1,18 +1,18 @@
 import { IEmployee } from "../ts/Employee.type";
 type Props = {
   list: IEmployee[];
-  onDelete: (data: IEmployee)=> void;
-  setCurrentPage: any;
-  onClickEdit(data: IEmployee): void;
+  onDelete: (id: string)=> void;
+  onClickEdit(id: string): void;
+  onAddNewEmployee: any;
 }
-export default function EmployeeList({ list, onDelete, setCurrentPage, onClickEdit }: Props ) {
+export default function EmployeeList({ list, onDelete, onAddNewEmployee, onClickEdit }: Props ) {
   return (
     <div>
       <header className='bg-white shadow-md p-3 text-center'>
         <p>Employee List</p>
       </header>
       <div className="w-9/12 mt-10 mx-auto flex justify-end">
-        <button className="bg-gray-500 text-white rounded-md p-2" onClick={()=>setCurrentPage('new')}>New Employee</button>
+        <button className="bg-gray-500 text-white rounded-md p-2" onClick={onAddNewEmployee}>New Employee</button>
       </div>
       <table className="w-9/12 mx-auto mt-5 shadow-sm">
         <thead className='bg-black text-white'>
@@ -32,8 +32,8 @@ export default function EmployeeList({ list, onDelete, setCurrentPage, onClickEd
                   <td>{employee.lastName}</td>
                   <td>{employee.email}</td>
                   <td className="flex justify-evenly items-center">
-                    <button className="px-2 p-1 text-white rounded-sm bg-blue-500" onClick={()=>onClickEdit(employee)}>Edit</button>
-                    <button className="px-2 p-1 text-white rounded-sm bg-red-500" onClick={()=>onDelete(employee)}>Delete</button>
+                    <button className="px-2 p-1 text-white rounded-sm bg-blue-500" onClick={()=>onClickEdit(employee.id)}>Edit</button>
+                    <button className="px-2 p-1 text-white rounded-sm bg-red-500" onClick={()=>onDelete(employee.id)}>Delete</button>
                   </td>
                 </tr>
 

@@ -1,11 +1,12 @@
 import { IEmployee } from "../ts/Employee.type";
+import EmployeeItem from "./EmployeeItem";
 type Props = {
   list: IEmployee[];
-  onDelete: (id: string)=> void;
+  onDelete: (id: string) => void;
   onClickEdit(id: string): void;
   onAddNewEmployee: any;
 }
-export default function EmployeeList({ list, onDelete, onAddNewEmployee, onClickEdit }: Props ) {
+export default function EmployeeList({ list, onDelete, onAddNewEmployee, onClickEdit }: Props) {
   return (
     <div>
       <header className='bg-white shadow-md p-3 text-center'>
@@ -25,18 +26,16 @@ export default function EmployeeList({ list, onDelete, onAddNewEmployee, onClick
         </thead>
         <tbody className='text-center'>
           {
-            list.map((employee: IEmployee)=>{
+            list.map((employee: IEmployee) => {
               return (
-                <tr key={employee.id} className='border hover:bg-gray-50 hover:cursor-pointer'>
-                  <td className='p-2'>{employee.firstName}</td>
-                  <td>{employee.lastName}</td>
-                  <td>{employee.email}</td>
-                  <td className="flex justify-evenly items-center">
-                    <button className="px-2 p-1 text-white rounded-sm bg-blue-500" onClick={()=>onClickEdit(employee.id)}>Edit</button>
-                    <button className="px-2 p-1 text-white rounded-sm bg-red-500" onClick={()=>onDelete(employee.id)}>Delete</button>
-                  </td>
-                </tr>
-
+                <EmployeeItem
+                  id={employee.id}
+                  firstName={employee.firstName}
+                  lastName={employee.lastName}
+                  email={employee.email}
+                  onClickEdit={onClickEdit}
+                  onDelete={onDelete}
+                />
               )
             })
           }

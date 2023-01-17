@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, ChangeEvent } from 'react';
 import { IEmployee } from '../ts/Employee.type';
+import InputField from './InputField';
 type Props = {
   onHandleSubmit(data: IEmployee): void;
   setCurrentPage: any;
@@ -19,7 +20,7 @@ const NewEmployee = ({ onHandleSubmit, data, handleClose }: Props) => {
     const { value, name } = even.target;
     setEmployee({ ...employee, [name]: value });
   }
-  const onSubmit=()=>{
+  const onSubmit = () => {
     onHandleSubmit(employee)
     setEmployee({
       firstName: '',
@@ -33,22 +34,34 @@ const NewEmployee = ({ onHandleSubmit, data, handleClose }: Props) => {
       <div className='w-8 h-8 bg-red-400 text-white flex justify-center items-center absolute top-0 right-0 rounded-tr-sm hover:cursor-pointer hover:bg-red-300 transition duration-300 ease-in-out' onClick={handleClose}>X</div>
       <p className='text-2xl text-yellow-500 font-bold text-center'>New Employee</p>
       <form className='p-7 grid grid-cols-2 gap-3 justify-center items-center w-full bg-green'>
-        <div className='grid grid-col-1'>
-          <label>First Name</label>
-          <input name='firstName' value={employee.firstName} placeholder='First Name...' className='outline-none border border-gray-200 focus:border-blue-300 px-3 py-1' onChange={onHandleChange} />
-        </div>
-        <div className='grid grid-col-1'>
-          <label>Last Name</label>
-          <input name='lastName' value={employee.lastName} placeholder='Last Name...' className='outline-none border border-gray-200 focus:border-blue-300 px-3 py-1' onChange={onHandleChange} />
-        </div>
-        <div className='grid grid-col-1'>
-          <label>Email</label>
-          <input name='email' value={employee.email} placeholder='Emaill...' className='outline-none border border-gray-200 focus:border-blue-300 px-3 py-1' onChange={onHandleChange} />
-        </div>
-        <div className='grid grid-col-1'>
-          <label>Phone Number</label>
-          <input name='phone' value={employee.phone} placeholder='Phone Number...' className='outline-none border border-gray-200 focus:border-blue-300 px-3 py-1' onChange={onHandleChange} />
-        </div>
+        <InputField
+          name='firstName'
+          value={employee.firstName}
+          placeHolder="First Name..."
+          onHandleChange={onHandleChange}
+          label='First Name'
+        />
+        <InputField
+          name='lastName'
+          value={employee.lastName}
+          placeHolder="Last Name..."
+          onHandleChange={onHandleChange}
+          label='Last Name'
+        />
+        <InputField
+          name='email'
+          value={employee.email}
+          placeHolder="Email..."
+          onHandleChange={onHandleChange}
+          label='Email' />
+        <InputField
+          name='phone'
+          value={employee.phone}
+          placeHolder="Phone Number..."
+          onHandleChange={onHandleChange}
+          label='Phone Number'
+        />
+
         <div></div>
         <div className='w-full flex justify-end'>
           <button type='button' className='bg-blue-500 text-white rounded-sm px-5 py-2' onClick={onSubmit}>Add</button>
